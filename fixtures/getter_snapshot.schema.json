@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://polycopy.local/schemas/getter_snapshot.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "chainId",
+    "capturedAt",
+    "standardExchange",
+    "negRiskExchange",
+    "orderTypehash",
+    "orderFilledTopic"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "chainId": { "const": 137 },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "standardExchange": { "$ref": "#/$defs/exchange" },
+    "negRiskExchange": { "$ref": "#/$defs/exchange" },
+    "orderTypehash": { "$ref": "#/$defs/bytes32" },
+    "orderFilledTopic": { "$ref": "#/$defs/bytes32" }
+  },
+  "$defs": {
+    "address": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+    "bytes32": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" },
+    "exchange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["address", "bytecodePresent", "getCollateral", "getCtf", "getCtfCollateral", "getOutcomeTokenFactory"],
+      "properties": {
+        "address": { "$ref": "#/$defs/address" },
+        "bytecodePresent": { "const": true },
+        "getCollateral": { "$ref": "#/$defs/address" },
+        "getCtf": { "$ref": "#/$defs/address" },
+        "getCtfCollateral": { "$ref": "#/$defs/address" },
+        "getOutcomeTokenFactory": { "$ref": "#/$defs/address" }
+      }
+    }
+  }
+}

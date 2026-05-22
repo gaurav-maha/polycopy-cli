@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://polycopy.local/schemas/manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "frozenNow", "getterSnapshot", "cases"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "frozenNow": { "type": "string", "format": "date-time" },
+    "getterSnapshot": { "type": "string", "minLength": 1 },
+    "cases": { "type": "array", "minItems": 8, "items": { "$ref": "#/$defs/case" } }
+  },
+  "$defs": {
+    "hex": { "type": "string", "pattern": "^0x[a-fA-F0-9]+$" },
+    "bytes32": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" },
+    "address": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+    "rawInt": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+    "skipReason": {
+      "enum": [
+        "CONFIG_INVALID",
+        "KILL_SWITCH",
+        "STALE_LOG",
+        "STALE_BOOK",
+        "STALE_AT_SIGN",
+        "BOOK_SOURCE_MISMATCH",
+        "SPREAD",
+        "DRIFT_BUY",
+        "DRIFT_SELL",
+        "PRICE_ABOVE_MAX_BUY",
+        "PRICE_BELOW_MIN_SELL",
+        "DEPTH_INSUFFICIENT",
+        "PARTICIPATION",
+        "SUB_MIN",
+        "SIDE_DISABLED",
+        "NO_INVENTORY",
+        "MARKET_PAUSED",
+        "MARKET_RESOLVED",
+        "MAKER_SIDE",
+        "ROLE_AMBIGUOUS",
+        "QUEUE_OVERFLOW",
+        "BUDGET",
+        "DAILY_CAP",
+        "REORG",
+        "RPC_DISAGREEMENT",
+        "BOOK_GAP",
+        "CACHE_MISMATCH",
+        "ERROR",
+        null
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["txHash", "blockNumber", "blockHash", "contractAddress", "transactionIndex", "logIndex"],
+      "oneOf": [
+        { "required": ["rawLogPath"], "not": { "required": ["rawLog"] } },
+        { "required": ["rawLog"], "not": { "required": ["rawLogPath"] } }
+      ],
+      "properties": {
+        "txHash": { "$ref": "#/$defs/bytes32" },
+        "blockNumber": { "type": "integer", "minimum": 0 },
+        "blockHash": { "$ref": "#/$defs/bytes32" },
+        "contractAddress": { "$ref": "#/$defs/address" },
+        "transactionIndex": { "type": "integer", "minimum": 0 },
+        "logIndex": { "type": "integer", "minimum": 0 },
+        "rawLogPath": { "type": "string", "minLength": 1 },
+        "rawLog": { "type": "object" }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "expected"],
+      "oneOf": [
+        { "required": ["source"], "not": { "required": ["sources"] } },
+        { "required": ["sources"], "not": { "required": ["source"] } }
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["order_filled_log", "multi_log_group", "fault"] },
+        "source": { "$ref": "#/$defs/source" },
+        "sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/source" } },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["decode", "normalization", "aggregation", "decision", "error"],
+          "properties": {
+            "decode": {
+              "type": ["object", "null"],
+              "additionalProperties": false,
+              "required": [
+                "maker",
+                "taker",
+                "side",
+                "tokenId",
+                "makerAmountFilledRaw",
+                "takerAmountFilledRaw",
+                "feeRaw",
+                "pricePpm"
+              ],
+              "properties": {
+                "maker": { "$ref": "#/$defs/address" },
+                "taker": { "$ref": "#/$defs/address" },
+                "side": { "enum": ["BUY", "SELL"] },
+                "tokenId": { "$ref": "#/$defs/rawInt" },
+                "makerAmountFilledRaw": { "$ref": "#/$defs/rawInt" },
+                "takerAmountFilledRaw": { "$ref": "#/$defs/rawInt" },
+                "feeRaw": { "$ref": "#/$defs/rawInt" },
+                "pricePpm": { "$ref": "#/$defs/rawInt" }
+              }
+            },
+            "normalization": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["accepted", "skipReason"],
+              "allOf": [
+                {
+                  "if": { "properties": { "accepted": { "const": true } } },
+                  "then": { "required": ["sourceWallet"] }
+                }
+              ],
+              "properties": {
+                "accepted": { "type": "boolean" },
+                "skipReason": { "$ref": "#/$defs/skipReason" },
+                "sourceWallet": { "$ref": "#/$defs/address" }
+              }
+            },
+            "aggregation": {
+              "type": ["object", "null"],
+              "additionalProperties": false,
+              "required": ["groupId", "sourceFillCount", "leaderPricePpm", "leaderNotionalRaw"],
+              "properties": {
+                "groupId": { "type": "string" },
+                "sourceFillCount": { "type": "integer", "minimum": 0 },
+                "leaderPricePpm": { "$ref": "#/$defs/rawInt" },
+                "leaderNotionalRaw": { "$ref": "#/$defs/rawInt" }
+              }
+            },
+            "decision": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status", "skipReason", "approvedCopyNotionalRaw"],
+              "properties": {
+                "status": { "enum": ["ACTIVE", "SKIPPED", "SKIPPED_REORG", "POST_REORG_ORPHAN", "ERROR"] },
+                "skipReason": { "$ref": "#/$defs/skipReason" },
+                "approvedCopyNotionalRaw": { "anyOf": [{ "$ref": "#/$defs/rawInt" }, { "type": "null" }] }
+              }
+            },
+            "error": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "frozenNow": "2026-05-22T00:00:00.000Z",
+  "getterSnapshot": "fixtures/getter_snapshot.json",
+  "cases": [
+    {
+      "id": "accepted-taker-buy",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "blockNumber": 100,
+        "blockHash": "0x0101010101010101010101010101010101010101010101010101010101010101",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 0,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/accepted-taker-buy.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "side": "BUY",
+          "tokenId": "100000000000000000001",
+          "makerAmountFilledRaw": "620000",
+          "takerAmountFilledRaw": "1000000",
+          "feeRaw": "0",
+          "pricePpm": "620000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_ceffa6d5353f2ea7b1d9c98c6cf3eec7f182f4e31a00181288b119590adb122b",
+          "sourceFillCount": 1,
+          "leaderPricePpm": "620000",
+          "leaderNotionalRaw": "620000"
+        },
+        "decision": {
+          "status": "ACTIVE",
+          "skipReason": null,
+          "approvedCopyNotionalRaw": "124000"
+        },
+        "error": null
+      }
+    },
+    {
+      "id": "accepted-taker-sell",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "blockNumber": 101,
+        "blockHash": "0x0202020202020202020202020202020202020202020202020202020202020202",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 1,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/accepted-taker-sell.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "side": "SELL",
+          "tokenId": "100000000000000000002",
+          "makerAmountFilledRaw": "1000000",
+          "takerAmountFilledRaw": "430000",
+          "feeRaw": "0",
+          "pricePpm": "430000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_06b41fe2cdcd0fef41deef9482cf868363feb07d8cc42732665c068845a33bf4",
+          "sourceFillCount": 1,
+          "leaderPricePpm": "430000",
+          "leaderNotionalRaw": "430000"
+        },
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "SIDE_DISABLED",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": null
+      }
+    },
+    {
+      "id": "nonzero-fee-buy",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "blockNumber": 102,
+        "blockHash": "0x0303030303030303030303030303030303030303030303030303030303030303",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 2,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/nonzero-fee-buy.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "side": "BUY",
+          "tokenId": "100000000000000000003",
+          "makerAmountFilledRaw": "555000",
+          "takerAmountFilledRaw": "1000000",
+          "feeRaw": "1250",
+          "pricePpm": "555000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_ca3926d22fa047461f6e64f01d2385fd0100d8afa4378dd1e41c275c1ee4eb7b",
+          "sourceFillCount": 1,
+          "leaderPricePpm": "555000",
+          "leaderNotionalRaw": "555000"
+        },
+        "decision": {
+          "status": "ACTIVE",
+          "skipReason": null,
+          "approvedCopyNotionalRaw": "111000"
+        },
+        "error": null
+      }
+    },
+    {
+      "id": "maker-side-skip",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "blockNumber": 103,
+        "blockHash": "0x0404040404040404040404040404040404040404040404040404040404040404",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 3,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/maker-side-skip.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x5555555555555555555555555555555555555555",
+          "taker": "0x1111111111111111111111111111111111111111",
+          "side": "BUY",
+          "tokenId": "100000000000000000004",
+          "makerAmountFilledRaw": "700000",
+          "takerAmountFilledRaw": "1000000",
+          "feeRaw": "0",
+          "pricePpm": "700000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_9f32ca850f1f3b7da44b7d4aee7877883a28a4725e71c246c529b9b5c5951bb7",
+          "sourceFillCount": 1,
+          "leaderPricePpm": "700000",
+          "leaderNotionalRaw": "700000"
+        },
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "SIDE_DISABLED",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": null
+      }
+    },
+    {
+      "id": "mint-merge-skip",
+      "kind": "fault",
+      "source": {
+        "txHash": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "blockNumber": 104,
+        "blockHash": "0x0505050505050505050505050505050505050505050505050505050505050505",
+        "contractAddress": "0x4D97DCd97eC945f40cF65F87097ACe5EA0476045",
+        "transactionIndex": 4,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/mint-merge-skip.json"
+      },
+      "expected": {
+        "decode": null,
+        "normalization": {
+          "accepted": false,
+          "skipReason": "ROLE_AMBIGUOUS"
+        },
+        "aggregation": null,
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "ROLE_AMBIGUOUS",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": "mint/merge position log is not an OrderFilled copy signal"
+      }
+    },
+    {
+      "id": "multi-fill-grouping",
+      "kind": "multi_log_group",
+      "sources": [
+        {
+          "txHash": "0xf1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1",
+          "blockNumber": 105,
+          "blockHash": "0x0606060606060606060606060606060606060606060606060606060606060606",
+          "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "transactionIndex": 5,
+          "logIndex": 0,
+          "rawLogPath": "fixtures/logs/multi-fill-grouping-a.json"
+        },
+        {
+          "txHash": "0xf2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2",
+          "blockNumber": 106,
+          "blockHash": "0x0707070707070707070707070707070707070707070707070707070707070707",
+          "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "transactionIndex": 0,
+          "logIndex": 1,
+          "rawLogPath": "fixtures/logs/multi-fill-grouping-b.json"
+        }
+      ],
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "side": "BUY",
+          "tokenId": "100000000000000000005",
+          "makerAmountFilledRaw": "250000",
+          "takerAmountFilledRaw": "500000",
+          "feeRaw": "0",
+          "pricePpm": "500000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_e1908176c2d7d08e5f324369c7ccb6c4b3b66ad1548342a3841a4a18167dc343",
+          "sourceFillCount": 2,
+          "leaderPricePpm": "500000",
+          "leaderNotionalRaw": "500000"
+        },
+        "decision": {
+          "status": "ACTIVE",
+          "skipReason": null,
+          "approvedCopyNotionalRaw": "100000"
+        },
+        "error": null
+      }
+    },
+    {
+      "id": "ambiguous-asset-skip",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0x8888888888888888888888888888888888888888888888888888888888888888",
+        "blockNumber": 107,
+        "blockHash": "0x0808080808080808080808080808080808080808080808080808080808080808",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 1,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/ambiguous-asset-skip.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0x7777777777777777777777777777777777777777",
+          "side": "BUY",
+          "tokenId": "0",
+          "makerAmountFilledRaw": "500000",
+          "takerAmountFilledRaw": "1000000",
+          "feeRaw": "0",
+          "pricePpm": "500000"
+        },
+        "normalization": {
+          "accepted": false,
+          "skipReason": "ERROR"
+        },
+        "aggregation": null,
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "ERROR",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": "INVALID_TOKEN_ID"
+      }
+    },
+    {
+      "id": "stale-v1-rejection",
+      "kind": "order_filled_log",
+      "source": {
+        "txHash": "0x9999999999999999999999999999999999999999999999999999999999999999",
+        "blockNumber": 108,
+        "blockHash": "0x0909090909090909090909090909090909090909090909090909090909090909",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 2,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/stale-v1-rejection.json"
+      },
+      "expected": {
+        "decode": null,
+        "normalization": {
+          "accepted": false,
+          "skipReason": "ROLE_AMBIGUOUS"
+        },
+        "aggregation": null,
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "ERROR",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": "stale V1-shaped OrderFilled data rejected"
+      }
+    },
+    {
+      "id": "ws-book-gap-fault",
+      "kind": "fault",
+      "source": {
+        "txHash": "0xabababababababababababababababababababababababababababababababab",
+        "blockNumber": 109,
+        "blockHash": "0x1010101010101010101010101010101010101010101010101010101010101010",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 3,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/ws-book-gap-fault.json"
+      },
+      "expected": {
+        "decode": {
+          "maker": "0x1111111111111111111111111111111111111111",
+          "taker": "0xE111180000d2663C0091e4f400237545B87B996B",
+          "side": "BUY",
+          "tokenId": "100000000000000000007",
+          "makerAmountFilledRaw": "520000",
+          "takerAmountFilledRaw": "1000000",
+          "feeRaw": "0",
+          "pricePpm": "520000"
+        },
+        "normalization": {
+          "accepted": true,
+          "skipReason": null,
+          "sourceWallet": "0x1111111111111111111111111111111111111111"
+        },
+        "aggregation": {
+          "groupId": "ag_a8a56b7125fd7d8c8f9f759d2c85afedaaf215954a48615b3a0fe9b9d19a24dd",
+          "sourceFillCount": 1,
+          "leaderPricePpm": "520000",
+          "leaderNotionalRaw": "520000"
+        },
+        "decision": {
+          "status": "SKIPPED",
+          "skipReason": "BOOK_GAP",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": "fixture WS_GAP"
+      }
+    },
+    {
+      "id": "rpc-disagreement-fault",
+      "kind": "fault",
+      "source": {
+        "txHash": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+        "blockNumber": 110,
+        "blockHash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+        "contractAddress": "0xE111180000d2663C0091e4f400237545B87B996B",
+        "transactionIndex": 4,
+        "logIndex": 0,
+        "rawLogPath": "fixtures/logs/rpc-disagreement-fault.json"
+      },
+      "expected": {
+        "decode": null,
+        "normalization": {
+          "accepted": false,
+          "skipReason": "RPC_DISAGREEMENT"
+        },
+        "aggregation": null,
+        "decision": {
+          "status": "ERROR",
+          "skipReason": "RPC_DISAGREEMENT",
+          "approvedCopyNotionalRaw": null
+        },
+        "error": "primary and fallback RPC receipts disagree for fixture transaction"
+      }
+    }
+  ]
+}

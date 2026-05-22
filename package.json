@@ -1,0 +1,42 @@
+{
+  "name": "polycopy-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
+  "bin": {
+    "polycopy": "./bin/polycopy.js"
+  },
+  "scripts": {
+    "cli": "node ./bin/polycopy.js",
+    "verify": "node ./bin/polycopy.js verify",
+    "demo": "node ./bin/polycopy.js demo",
+    "setup-account": "node ./bin/polycopy.js setup-account",
+    "live": "node ./bin/polycopy.js live",
+    "status": "node ./bin/polycopy.js status",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json && cp -R src/db/schema dist/db/schema",
+    "prepare": "npm run build",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@polymarket/clob-client-v2": "1.0.6",
+    "ajv": "8.17.1",
+    "better-sqlite3": "12.4.1",
+    "commander": "14.0.2",
+    "dotenv": "17.2.3",
+    "viem": "2.40.3",
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "22.19.0",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.14"
+  }
+}

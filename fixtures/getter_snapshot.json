@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "chainId": 137,
+  "capturedAt": "2026-05-22T13:31:00.000Z",
+  "standardExchange": {
+    "address": "0xE111180000d2663C0091e4f400237545B87B996B",
+    "bytecodePresent": true,
+    "getCollateral": "0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB",
+    "getCtf": "0x4D97DCd97eC945f40cF65F87097ACe5EA0476045",
+    "getCtfCollateral": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "getOutcomeTokenFactory": "0xADa100874d00e3331D00F2007a9c336a65009718"
+  },
+  "negRiskExchange": {
+    "address": "0xe2222d279d744050d28e00520010520000310F59",
+    "bytecodePresent": true,
+    "getCollateral": "0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB",
+    "getCtf": "0x4D97DCd97eC945f40cF65F87097ACe5EA0476045",
+    "getCtfCollateral": "0x3A3BD7bb9528E159577F7C2e685CC81A765002E2",
+    "getOutcomeTokenFactory": "0xAdA200001000ef00D07553cEE7006808F895c6F1"
+  },
+  "orderTypehash": "0xbb86318a2138f5fa8ae32fbe8e659f8fcf13cc6ae4014a707893055433818589",
+  "orderFilledTopic": "0xd543adfd945773f1a62f74f0ee55a5e3b9b1a28262980ba90b1a89f2ea84d8ee"
+}
